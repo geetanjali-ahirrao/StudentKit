@@ -1,0 +1,50 @@
+<div class="cell cell--product">
+  <img class="thumb" [src]="kit().imageUrl" [alt]="kit().name + ' kit'" width="124" height="80" loading="lazy" />
+
+  <div class="details">
+    <h3 class="details__name">{{ kit().code }} - {{ kit().name }}</h3>
+    <p class="details__term">{{ kit().term }}</p>
+    <p class="details__price">
+      Kit Price + Royalty = {{ kit().kitPrice + kit().royalty | inr: 0 }}
+    </p>
+    @if (inCart() > 0) {
+      <p class="details__in-cart">
+        <app-icon name="check" [size]="13" [strokeWidth]="2.4" />
+        {{ inCart() }} in cart
+      </p>
+    }
+  </div>
+</div>
+
+<div class="cell cell--quantity" [formGroup]="group()">
+  <span class="cell__label">Quantity</span>
+  <app-quantity-selector
+    formControlName="quantity"
+    [min]="0"
+    [max]="kit().maxQuantity"
+    [invalid]="showError"
+    [label]="kit().code + ' quantity'"
+  />
+  @if (showError) {
+    <p class="error-text">
+      <app-icon name="alert" [size]="13" [strokeWidth]="2" />
+      {{ errorMessage }}
+    </p>
+  }
+</div>
+
+<div class="cell cell--subtotal">
+  <span class="cell__label">Subtotal</span>
+  <span class="subtotal">{{ subtotal | inr }}</span>
+</div>
+
+<div class="cell cell--action">
+  <button type="button" class="btn btn--primary btn--block" [disabled]="!canAdd" (click)="onAdd()">
+    <app-icon name="cart" [size]="17" />
+    Add to Cart
+  </button>
+  <p class="assigned">
+    Uniforms assigned: Summer - {{ kit().assignedUniforms.summer }}, Sport -
+    {{ kit().assignedUniforms.sport }}
+  </p>
+</div>

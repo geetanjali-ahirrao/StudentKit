@@ -1,0 +1,127 @@
+:host {
+  display: grid;
+  grid-template-columns: var(--uniform-grid);
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  border-bottom: 1px solid var(--c-border);
+}
+
+:host(:last-of-type) {
+  border-bottom: 0;
+}
+
+:host(:hover) {
+  background: #fbfcfe;
+}
+
+.cell {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cell__label {
+  display: none;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.cell--product {
+  flex-direction: row;
+  align-items: center;
+  gap: 18px;
+}
+
+.thumb {
+  width: 124px;
+  height: 80px;
+  border-radius: var(--radius);
+  object-fit: cover;
+  border: 1px solid var(--c-border);
+  flex: none;
+}
+
+.details__name {
+  margin: 0 0 4px;
+  font-size: 15.5px;
+  font-weight: 600;
+  color: var(--c-text-strong);
+}
+
+.details__term,
+.details__price {
+  margin: 0;
+  font-size: 12.5px;
+  color: var(--c-text-muted);
+}
+
+.details__term {
+  font-weight: 600;
+}
+
+.details__in-cart {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin: 6px 0 0;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: #e8f6ed;
+  color: var(--c-success);
+  font-size: 11.5px;
+  font-weight: 600;
+}
+
+.subtotal {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--c-text-strong);
+}
+
+.assigned {
+  margin: 0;
+  font-size: 11.5px;
+  color: var(--c-text-muted);
+  text-align: center;
+}
+
+@media (max-width: 1199px) {
+  :host {
+    grid-template-columns: minmax(0, 1fr) 130px 160px;
+    grid-template-areas:
+      'product product product'
+      'size qty subtotal'
+      'action action action';
+    align-items: end;
+    padding: 16px;
+  }
+
+  .cell--product { grid-area: product; }
+  .cell--size { grid-area: size; }
+  .cell--quantity { grid-area: qty; }
+  .cell--subtotal { grid-area: subtotal; }
+  .cell--action { grid-area: action; }
+
+  .cell__label { display: block; }
+}
+
+@media (max-width: 575px) {
+  :host {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+      'product product'
+      'size qty'
+      'subtotal subtotal'
+      'action action';
+  }
+
+  .cell--product { gap: 12px; }
+
+  .thumb {
+    width: 92px;
+    height: 62px;
+  }
+}

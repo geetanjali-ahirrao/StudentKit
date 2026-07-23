@@ -1,0 +1,69 @@
+<section class="cart card" aria-labelledby="cart-summary-title">
+  <h2 class="cart__title" id="cart-summary-title">Cart Summary</h2>
+
+  <div class="cart__head">
+    <span>Product Details</span>
+    <span>Item Type</span>
+    <span class="right">Quantity</span>
+    <span class="right">Subtotal</span>
+    <span class="right">Action</span>
+  </div>
+
+  @for (line of lines(); track line.lineId) {
+    <div class="cart__row">
+      <div class="cart__cell">
+        <span class="cart__name">{{ line.code }} - {{ line.name }}</span>
+        @if (line.detail) {
+          <span class="cart__detail">{{ line.detail }}</span>
+        }
+      </div>
+      <div class="cart__cell">
+        <span class="chip" [class.chip--uniform]="line.type === 'EXTRA_UNIFORM'">
+          {{ typeLabel(line) }}
+        </span>
+      </div>
+      <div class="cart__cell right">{{ line.quantity }}</div>
+      <div class="cart__cell right strong">{{ line.unitPrice * line.quantity | inr }}</div>
+      <div class="cart__cell right">
+        <button
+          type="button"
+          class="remove"
+          [attr.aria-label]="'Remove ' + line.name + ' from cart'"
+          (click)="remove(line)"
+        >
+          <app-icon name="trash" [size]="17" />
+        </button>
+      </div>
+    </div>
+  } @empty {
+    <p class="cart__empty">
+      Nothing in the cart yet. Pick a quantity above and choose Add to Cart to start this indent.
+    </p>
+  }
+
+  <div class="cart__footer">
+    <div class="cart__totals">
+      <p>Cart Total Kit Quantity: {{ totals().kitQuantity }}</p>
+      <p>
+        Cart Total Uniform Quantity: Extra Uniform - {{ totals().extraUniformQuantity }}, Uniform -
+        {{ totals().uniformQuantity }}, Pending Uniform - {{ totals().pendingUniformQuantity }}
+      </p>
+      <p class="cart__amount">Cart Total Amount: {{ totals().amount | inr: 0 }}</p>
+    </div>
+
+    <div class="cart__actions">
+      @if (!isEmpty()) {
+        <button type="button" class="btn btn--ghost btn--sm" (click)="clear()">Clear cart</button>
+      }
+      <a
+        class="btn btn--dark"
+        routerLink="/indent/uniform-section"
+        [attr.aria-disabled]="isEmpty()"
+        [class.btn--disabled]="isEmpty()"
+      >
+        Uniform Section
+        <app-icon name="arrow-right" [size]="17" />
+      </a>
+    </div>
+  </div>
+</section>

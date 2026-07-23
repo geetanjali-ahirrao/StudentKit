@@ -1,0 +1,28 @@
+<div class="shell">
+  <app-topbar class="shell__topbar" />
+
+  <div class="shell__body">
+    <app-sidebar class="shell__sidebar" [class.shell__sidebar--open]="isDrawerOpen()" />
+
+    @if (isDrawerOpen()) {
+      <div class="shell__scrim" (click)="closeDrawer()" aria-hidden="true"></div>
+    }
+
+    <div class="shell__content">
+      <main class="shell__main" id="main-content">
+        <router-outlet />
+      </main>
+
+      <footer class="shell__footer">
+        <span>&copy; {{ year }} Little Millennium&reg;. All Rights Reserved.</span>
+        <nav class="shell__footer-links" aria-label="Footer">
+          @for (link of footerLinks; track link) {
+            <button type="button" (click)="onFooterLink(link)">{{ link }}</button>
+          }
+        </nav>
+      </footer>
+    </div>
+  </div>
+
+  <app-toast-host />
+</div>

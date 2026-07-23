@@ -1,0 +1,52 @@
+<header class="topbar">
+  <button type="button" class="icon-btn" aria-label="Toggle navigation" (click)="toggleNav()">
+    <app-icon name="menu" [size]="22" [strokeWidth]="2" />
+  </button>
+
+  <a class="topbar__brand" routerLink="/indent/new" aria-label="Little Millennium home">
+    <img src="assets/brand/logo.svg" alt="Little Millennium" width="150" height="44" />
+  </a>
+
+  <span class="topbar__spacer"></span>
+
+  <button type="button" class="btn btn--outline btn--sm topbar__support" (click)="notify('Support chat is not part of this task.')">
+    <app-icon class="topbar__support-icon" name="support" [size]="18" />
+    <span class="topbar__support-label">Support</span>
+  </button>
+
+  <button type="button" class="icon-btn icon-btn--dot" aria-label="Notifications, 1 unread" (click)="notify('You have no new notifications.')">
+    <app-icon name="bell" [size]="20" />
+  </button>
+
+  <a class="icon-btn" routerLink="/indent/new" [attr.aria-label]="'Cart, ' + cartCount() + ' items'">
+    <app-icon name="cart" [size]="20" />
+    @if (cartCount() > 0) {
+      <span class="icon-btn__badge">{{ cartCount() }}</span>
+    }
+  </a>
+
+  <div class="profile">
+    <button
+      type="button"
+      class="profile__trigger"
+      [attr.aria-expanded]="menuOpen()"
+      aria-haspopup="menu"
+      (click)="toggleMenu()"
+    >
+      <img class="profile__avatar" src="assets/brand/avatar.svg" alt="" width="38" height="38" />
+      <span class="profile__meta">
+        <span class="profile__centre">{{ centre().name }}</span>
+        <span class="profile__name">{{ centre().user }}</span>
+      </span>
+      <app-icon name="chevron-down" [size]="16" />
+    </button>
+
+    @if (menuOpen()) {
+      <div class="profile__menu" role="menu">
+        <button type="button" role="menuitem" (click)="notify('Profile is not part of this task.')">My profile</button>
+        <button type="button" role="menuitem" (click)="notify('Centre settings are not part of this task.')">Centre settings</button>
+        <button type="button" role="menuitem" (click)="notify('Signed out of the demo.')">Sign out</button>
+      </div>
+    }
+  </div>
+</header>

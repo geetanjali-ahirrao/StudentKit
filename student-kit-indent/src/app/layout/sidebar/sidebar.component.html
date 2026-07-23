@@ -1,0 +1,43 @@
+<nav class="sidebar" [class.sidebar--collapsed]="isCollapsed()" aria-label="Main">
+  <ul class="nav">
+    @for (group of groups; track group.id) {
+      <li class="nav__group">
+        <button
+          type="button"
+          class="nav__item"
+          [class.nav__item--active]="isActive(group)"
+          [attr.aria-expanded]="isExpanded(group)"
+          [attr.aria-current]="isActive(group) ? 'page' : null"
+          [attr.title]="isCollapsed() ? group.label : null"
+          (click)="toggle(group)"
+        >
+          <app-icon class="nav__icon" [name]="group.icon" [size]="19" />
+          <span class="nav__label">{{ group.label }}</span>
+          <app-icon
+            class="nav__chevron"
+            [class.nav__chevron--open]="isExpanded(group)"
+            name="chevron-down"
+            [size]="16"
+          />
+        </button>
+
+        @if (isExpanded(group)) {
+          <ul class="nav__children">
+            @for (child of group.children; track child.route) {
+              <li>
+                <a
+                  class="nav__child"
+                  [routerLink]="child.route"
+                  routerLinkActive="nav__child--active"
+                  (click)="onNavigate()"
+                >
+                  {{ child.label }}
+                </a>
+              </li>
+            }
+          </ul>
+        }
+      </li>
+    }
+  </ul>
+</nav>

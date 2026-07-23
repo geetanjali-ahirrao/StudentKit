@@ -1,0 +1,36 @@
+<div class="table" [formGroup]="form">
+  <div class="table__head" role="row">
+    <span role="columnheader">Product Details</span>
+    <span role="columnheader">Size</span>
+    <span role="columnheader">Quantity</span>
+    <span role="columnheader">Subtotal</span>
+    <span role="columnheader" class="table__head-action">Add to cart</span>
+  </div>
+
+  @if (loading()) {
+    @for (skeleton of skeletons; track skeleton) {
+      <div class="skeleton-row">
+        <div class="skeleton skeleton--thumb"></div>
+        <div class="skeleton-lines">
+          <div class="skeleton skeleton--line"></div>
+          <div class="skeleton skeleton--line skeleton--short"></div>
+        </div>
+      </div>
+    }
+  } @else {
+    @for (row of rows(); track row.uniform.id) {
+      <app-uniform-row
+        [uniform]="row.uniform"
+        [group]="groupAt(row.index)"
+        [inCart]="cartQuantities().get(row.uniform.id) ?? 0"
+        (add)="addToCart(row.index)"
+      />
+    } @empty {
+      <div class="empty">
+        <app-icon name="search" [size]="28" [strokeWidth]="1.4" />
+        <p class="empty__title">No uniforms match "{{ search() }}"</p>
+        <p class="empty__text">Clear the search to see every uniform available this term.</p>
+      </div>
+    }
+  }
+</div>

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 260" width="400" height="260" role="img" aria-label="HOUSE TEE uniform">
+<defs><linearGradient id="g2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7043"/><stop offset="1" stop-color="#D84315"/></linearGradient>
+<clipPath id="c2"><rect width="400" height="260" rx="10"/></clipPath></defs>
+<g clip-path="url(#c2)"><rect width="400" height="260" fill="url(#g2)"/>
+<path d="M150 60 l50 26 50 -26 62 32 -24 50 -26 -12 v88 H138 v-88 l-26 12 -24 -50 z" fill="#ffffff" opacity="0.95"/>
+<path d="M180 62 q20 26 40 0" stroke="#D84315" stroke-width="5" fill="none"/>
+<rect x="86" y="200" width="228" height="30" rx="15" fill="#ffffff" opacity="0.92"/>
+<text x="200" y="220" text-anchor="middle" font-family="Verdana,Geneva,sans-serif" font-size="13" font-weight="bold" fill="#D84315" letter-spacing="1.5">HOUSE TEE UNIFORM</text>
+</g></svg>

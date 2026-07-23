@@ -1,0 +1,68 @@
+<div class="page">
+  <header class="page__head">
+    <button type="button" class="back" aria-label="Go back" (click)="goBack()">
+      <app-icon name="arrow-left" [size]="22" [strokeWidth]="2" />
+    </button>
+
+    <h1 class="page__title">New Indent</h1>
+
+    <div class="page__tools">
+      <div class="search">
+        <app-icon class="search__icon" name="search" [size]="17" />
+        <label class="sr-only" for="indent-search">Search indent item</label>
+        <input
+          id="indent-search"
+          class="control search__input"
+          type="search"
+          placeholder="Search Indent Item..."
+          autocomplete="off"
+          [formControl]="searchControl"
+        />
+        @if (searchControl.value) {
+          <button type="button" class="search__clear" aria-label="Clear search" (click)="clearSearch()">
+            <app-icon name="close" [size]="15" [strokeWidth]="2" />
+          </button>
+        }
+      </div>
+
+      <button type="button" class="fab" aria-label="Add an item manually" (click)="onQuickAdd()">
+        <app-icon name="plus" [size]="24" [strokeWidth]="2.2" />
+      </button>
+    </div>
+  </header>
+
+  <section class="card panel">
+    <div class="tabs" role="tablist" aria-label="Indent item type">
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.tab--active]="tab() === 'kit'"
+        [attr.aria-selected]="tab() === 'kit'"
+        (click)="selectTab('kit')"
+      >
+        <app-icon name="box" [size]="17" />
+        Student Kit
+      </button>
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [class.tab--active]="tab() === 'uniform'"
+        [attr.aria-selected]="tab() === 'uniform'"
+        (click)="selectTab('uniform')"
+      >
+        <app-icon name="shirt" [size]="17" />
+        Extra Uniform
+      </button>
+    </div>
+
+    @if (tab() === 'kit') {
+      <app-student-kit-list [search]="search()" />
+    } @else {
+      <app-extra-uniform-list [search]="search()" />
+    }
+  </section>
+
+  <app-cart-summary />
+</div>

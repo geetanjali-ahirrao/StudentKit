@@ -1,0 +1,279 @@
+/* =========================================================================
+   Global stylesheet: design tokens, reset and the few shared primitives
+   (buttons, fields, cards) that more than one feature needs.
+   Everything else lives in the component that owns it.
+   ========================================================================= */
+
+:root {
+  /* Brand */
+  --c-primary: #0f62b4;
+  --c-primary-dark: #0b4c8c;
+  --c-primary-darker: #0a4179;
+  --c-primary-soft: #e8f1fb;
+  --c-primary-ring: rgb(15 98 180 / 22%);
+  --c-primary-disabled: #9cc3e8;
+
+  /* Surfaces */
+  --c-page: #f1f4f8;
+  --c-surface: #ffffff;
+  --c-surface-muted: #f5f7fa;
+  --c-table-head: #e9ecef;
+  --c-border: #e3e8ef;
+  --c-border-strong: #cfd8e3;
+
+  /* Text */
+  --c-text: #37414f;
+  --c-text-strong: #1f2937;
+  --c-text-muted: #7a8494;
+  --c-text-disabled: #b4bdc9;
+  --c-on-primary: #ffffff;
+
+  /* Feedback */
+  --c-success: #2e9e5b;
+  --c-danger: #d64541;
+  --c-danger-ring: rgb(214 69 65 / 20%);
+  --c-warning: #e8a13a;
+
+  /* Metrics */
+  --sidebar-w: 248px;
+  /* Column template shared by the indent table head and its rows. */
+  --indent-grid: minmax(0, 1fr) 170px 150px 214px;
+  --uniform-grid: minmax(0, 1fr) 140px 170px 140px 214px;
+  --cart-grid: minmax(0, 1fr) 150px 110px 150px 90px;
+  --topbar-h: 70px;
+  --radius-sm: 4px;
+  --radius: 6px;
+  --radius-lg: 10px;
+  --shadow-card: 0 1px 3px rgb(20 44 78 / 8%);
+  --shadow-pop: 0 10px 30px rgb(20 44 78 / 16%);
+
+  --font-body: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, -apple-system,
+    BlinkMacSystemFont, sans-serif;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--c-page);
+  color: var(--c-text);
+  font-family: var(--font-body);
+  font-size: 14px;
+  line-height: 1.45;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4 {
+  color: var(--c-text-strong);
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: inherit;
+}
+
+a {
+  color: var(--c-primary);
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: 2px solid var(--c-primary);
+  outline-offset: 2px;
+}
+
+/* ---------- Buttons ---------- */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid transparent;
+  border-radius: var(--radius);
+  background: transparent;
+  font-size: 14px;
+  font-weight: 600;
+  line-height: 1;
+  cursor: pointer;
+  transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+  white-space: nowrap;
+}
+
+.btn:disabled {
+  cursor: not-allowed;
+}
+
+.btn--primary {
+  background: var(--c-primary);
+  color: var(--c-on-primary);
+}
+
+.btn--primary:hover:not(:disabled) {
+  background: var(--c-primary-dark);
+}
+
+.btn--primary:disabled {
+  background: var(--c-primary-disabled);
+  color: #f4f8fd;
+}
+
+.btn--dark {
+  background: var(--c-primary-darker);
+  color: var(--c-on-primary);
+}
+
+.btn--dark:hover:not(:disabled) {
+  background: #08355f;
+}
+
+.btn--outline {
+  border-color: var(--c-primary);
+  color: var(--c-primary);
+  background: var(--c-surface);
+}
+
+.btn--outline:hover:not(:disabled) {
+  background: var(--c-primary-soft);
+}
+
+.btn--ghost {
+  color: var(--c-text-muted);
+}
+
+.btn--ghost:hover:not(:disabled) {
+  background: var(--c-surface-muted);
+  color: var(--c-text);
+}
+
+.btn--sm {
+  min-height: 34px;
+  padding: 0 12px;
+  font-size: 13px;
+}
+
+.btn--block {
+  width: 100%;
+}
+
+/* ---------- Fields ---------- */
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.field__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--c-text-muted);
+}
+
+.control {
+  width: 100%;
+  min-height: 40px;
+  padding: 0 12px;
+  border: 1px solid var(--c-border-strong);
+  border-radius: var(--radius);
+  background: var(--c-surface);
+  color: var(--c-text);
+  outline: none;
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.control:focus {
+  border-color: var(--c-primary);
+  box-shadow: 0 0 0 3px var(--c-primary-ring);
+}
+
+.control--invalid {
+  border-color: var(--c-danger);
+}
+
+.control--invalid:focus {
+  box-shadow: 0 0 0 3px var(--c-danger-ring);
+}
+
+select.control {
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%237a8494' stroke-width='2' stroke-linecap='round'%3E%3Cpath d='M6 9.5l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  padding-right: 32px;
+}
+
+.error-text {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 12px;
+  color: var(--c-danger);
+}
+
+/* ---------- Surfaces ---------- */
+
+.card {
+  background: var(--c-surface);
+  border: 1px solid var(--c-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c9d3e0;
+  border-radius: 10px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #aebbcc;
+  background-clip: content-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

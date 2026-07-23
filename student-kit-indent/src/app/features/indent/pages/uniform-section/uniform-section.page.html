@@ -1,0 +1,106 @@
+<div class="page">
+  <header class="page__head">
+    <a class="back" routerLink="/indent/new" aria-label="Back to New Indent">
+      <app-icon name="arrow-left" [size]="22" [strokeWidth]="2" />
+    </a>
+    <div>
+      <h1 class="page__title">Uniform Section</h1>
+      <p class="page__subtitle">
+        Assign a size to every uniform that comes with the kits in this indent.
+      </p>
+    </div>
+  </header>
+
+  @if (isEmpty()) {
+    <section class="card empty">
+      <app-icon name="cart" [size]="34" [strokeWidth]="1.3" />
+      <h2 class="empty__title">The cart is empty</h2>
+      <p class="empty__text">Add a student kit to the indent and the uniforms will show up here.</p>
+      <a class="btn btn--primary" routerLink="/indent/new">Back to New Indent</a>
+    </section>
+  } @else {
+    @if (totals().pendingUniformQuantity > 0) {
+      <div class="banner" [class.banner--error]="submitted()">
+        <app-icon name="alert" [size]="18" />
+        <span>
+          {{ totals().pendingUniformQuantity }} of {{ totals().uniformQuantity }} uniforms still
+          need a size.
+        </span>
+
+        <div class="banner__bulk">
+          <label class="sr-only" for="bulk-size">Size to apply to all pending uniforms</label>
+          <select id="bulk-size" class="control" [formControl]="bulkSize">
+            <option [ngValue]="null">Select size</option>
+            @for (size of sizes; track size) {
+              <option [ngValue]="size">{{ size }}</option>
+            }
+          </select>
+          <button type="button" class="btn btn--outline btn--sm" (click)="applyToPending()">
+            Apply to all pending
+          </button>
+        </div>
+      </div>
+    }
+
+    @for (group of groups(); track group.lineId) {
+      <section class="card group">
+        <h2 class="group__title">{{ group.title }}</h2>
+
+        <div class="group__slots">
+          @for (slot of group.slots; track slot.key) {
+            <div class="slot" [class.slot--pending]="!slot.size && submitted()">
+              <span class="slot__type" [class.slot__type--sport]="slot.uniformType === 'Sport'">
+                {{ slot.uniformType }}
+              </span>
+              <span class="slot__set">Set {{ slot.setNumber }}</span>
+
+              <label class="sr-only" [attr.for]="'size-' + slot.key">
+                {{ slot.uniformType }} uniform size, set {{ slot.setNumber }}
+              </label>
+              <select
+                class="control"
+                [id]="'size-' + slot.key"
+                [class.control--invalid]="!slot.size && submitted()"
+                [value]="slot.size ?? ''"
+                (change)="onSizeChange(slot, $event)"
+              >
+                <option value="" disabled>Select size</option>
+                @for (size of sizes; track size) {
+                  <option [value]="size">{{ size }}</option>
+                }
+              </select>
+            </div>
+          }
+        </div>
+      </section>
+    } @empty {
+      <section class="card empty">
+        <app-icon name="shirt" [size]="34" [strokeWidth]="1.3" />
+        <h2 class="empty__title">No uniforms to assign</h2>
+        <p class="empty__text">
+          The kits in this indent do not carry a uniform allocation. You can place the indent
+          straight away.
+        </p>
+      </section>
+    }
+
+    <section class="card review">
+      <h2 class="review__title">Review</h2>
+      <dl class="review__list">
+        <div><dt>Student kits</dt><dd>{{ totals().kitQuantity }}</dd></div>
+        <div><dt>Uniforms with the kits</dt><dd>{{ totals().uniformQuantity }}</dd></div>
+        <div><dt>Extra uniforms</dt><dd>{{ totals().extraUniformQuantity }}</dd></div>
+        <div><dt>Pending sizes</dt><dd>{{ totals().pendingUniformQuantity }}</dd></div>
+        <div class="review__total"><dt>Total amount</dt><dd>{{ totals().amount | inr }}</dd></div>
+      </dl>
+
+      <div class="review__actions">
+        <a class="btn btn--outline" routerLink="/indent/new">Back to items</a>
+        <button type="button" class="btn btn--primary" [disabled]="!canPlaceIndent()" (click)="placeIndent()">
+          <app-icon name="check" [size]="17" />
+          Place indent
+        </button>
+      </div>
+    </section>
+  }
+</div>
